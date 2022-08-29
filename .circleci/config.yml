@@ -3,16 +3,14 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@16.15 #orb version
+  node: circleci/node@5.0.2 #orb version
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   build:
     jobs:
-      - node/build:
-          version: 16.15
-  test:
-    jobs:
+      - node/build
       - node/test:
-          version: 16.15
+          requires:
+            - node/test
