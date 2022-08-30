@@ -10,7 +10,4 @@ orbs:
 workflows:
   build:
     jobs:
-      - node/build
-      - node/test:
-          requires:
-            - node/test
+      - node/test
