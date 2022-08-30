@@ -17,7 +17,7 @@ workflows:
   test-and-deploy:
     jobs:
       - sonar-scan:
-          context: Sonarcloud
+          context: sonarcloud
       - node/test
       - heroku/deploy-via-git:
           requires:
