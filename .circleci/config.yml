@@ -16,7 +16,8 @@ orbs:
 workflows:
   test-and-deploy:
     jobs:
-      - sonar-scan
+      - sonar-scan:
+          context: Sonarcloud
       - node/test
       - heroku/deploy-via-git:
           requires:
