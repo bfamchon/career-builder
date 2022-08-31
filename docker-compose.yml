@@ -1,0 +1,10 @@
+version: "3.5"
+services:
+  app:
+    image: perso/app:latest
+    restart: unless-stopped
+    container_name: app
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=staging
