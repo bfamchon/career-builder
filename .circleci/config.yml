@@ -1,6 +1,22 @@
 version: 2.1
 
+executors:
+  ubuntu:
+    machine:
+      image: ubuntu-2004:202010-01
+
 jobs:
+  build-docker-image:
+    docker:
+      - image: node:latest
+    working_directory: ~/project
+    steps:
+      - setup_remote_docker:
+          version: 19.03.13
+      - run: docker login bfamchon/my-repository
+      - run:
+          command: docker build -t bfamchon/my-repository/test-app:latest latest . && docker push bfamchon/my-repository/test-app:latest
+          no_output_timeout: 30m
   sonar-scan:
     docker:
       - image: 'node:latest'
@@ -14,6 +30,9 @@ orbs:
   sonarcloud: sonarsource/sonarcloud@1.1.0
 
 workflows:
+  build:
+    jobs:
+      - build-docker-image
   test-and-deploy:
     jobs:
       - sonar-scan:
