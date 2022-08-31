@@ -5,7 +5,7 @@ FROM node:16.15.1-alpine AS build-env
 WORKDIR /app
 
 COPY . /app
-RUN npm ci && npm build
+RUN npm ci && npm run build
 
 RUN mkdir tmp && cp -r build package*.json tsconfig.json tmp
 
@@ -20,4 +20,4 @@ EXPOSE 8080
 
 USER node
 ENTRYPOINT [ "npm" ]
-CMD [ "start:prod" ]
+CMD [ "run start:prod" ]
