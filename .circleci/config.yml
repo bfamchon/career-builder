@@ -1,22 +1,17 @@
 version: 2.1
 
-executors:
-  ubuntu:
-    machine:
-      image: ubuntu-2004:202010-01
-
 jobs:
   build-docker-image:
+    environment:
+      IMAGE_NAME: bfamchon/my-repository/my-image
     docker:
-      - image: node:latest
-    working_directory: ~/project
+      - image: circleci/buildpack-deps:stretch
     steps:
-      - setup_remote_docker:
-          version: 19.03.13
-      - run: docker login bfamchon/my-repository
+      - checkout
+      - setup_remote_docker
       - run:
-          command: docker build -t bfamchon/my-repository/test-app:latest latest . && docker push bfamchon/my-repository/test-app:latest
-          no_output_timeout: 30m
+          name: Build Docker image
+          command: docker build -t $IMAGE_NAME:latest .
   sonar-scan:
     docker:
       - image: 'node:latest'
@@ -30,9 +25,12 @@ orbs:
   sonarcloud: sonarsource/sonarcloud@1.1.0
 
 workflows:
-  build:
+  build-main:
     jobs:
-      - build-docker-image
+      - build-docker-image:
+          filters:
+            branches:
+              only: main
   test-and-deploy:
     jobs:
       - sonar-scan:
