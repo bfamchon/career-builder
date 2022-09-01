@@ -15,7 +15,7 @@ jobs:
           command: docker build -t $IMAGE_NAME:latest .
   publish-latest:
     environment:
-      IMAGE_NAME: my-image
+      IMAGE_NAME: bfamchon/my-repository/my-image
     docker:
       - image: cimg/base:current
     steps:
