@@ -13,6 +13,19 @@ jobs:
       - run:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:latest .
+  publish-latest:
+    environment:
+      IMAGE_NAME: bfamchon/my-repository/my-image
+    docker:
+      - image: cimg/base:current
+    steps:
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:latest
   sonar-scan:
     docker:
       - image: 'node:latest'
@@ -26,12 +39,18 @@ orbs:
   sonarcloud: sonarsource/sonarcloud@1.1.0
 
 workflows:
-  build-main:
+  build-and-publish-main:
     jobs:
       - build-docker-image:
           filters:
             branches:
               only: main
+      - publish-latest:
+          filters:
+            branches:
+              only: main
+          requires:
+            - build-docker-image
   test-and-deploy:
     jobs:
       - sonar-scan:
