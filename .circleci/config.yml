@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build-docker-image:
     environment:
-      IMAGE_NAME: bfamchon/my-repository/my-image
+      IMAGE_NAME: bfamchon/my-repository
     docker:
       - image: cimg/base:current
     steps:
