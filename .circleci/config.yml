@@ -8,7 +8,7 @@ executors:
       - image: cimg/base:current
 
 jobs:
-  build-docker-image:
+  build-image:
     executor: docker-publisher
     steps:
       - checkout
@@ -24,7 +24,7 @@ jobs:
           root: .
           paths:
             - ./image.tar
-  publish-latest:
+  publish-image:
     executor: docker-publisher
     steps:
       - attach_workspace:
@@ -52,24 +52,23 @@ orbs:
   sonarcloud: sonarsource/sonarcloud@1.1.0
 
 workflows:
-  build-and-publish-main:
-    jobs:
-      - build-docker-image:
-          filters:
-            branches:
-              only: main
-      - publish-latest:
-          context: Dockerhub
-          filters:
-            branches:
-              only: main
-          requires:
-            - build-docker-image
   test-and-deploy:
     jobs:
       - sonar-scan:
           context: Sonarcloud
       - node/test
+      - build-image:
+          filters:
+            branches:
+              only: main
+      - publish-image:
+          context: Dockerhub
+          filters:
+            branches:
+              only: main
+          requires:
+          - node/test
+          - build-image
       - heroku/deploy-via-git:
           requires:
           - node/test
