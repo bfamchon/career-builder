@@ -46,6 +46,7 @@ workflows:
             branches:
               only: main
       - publish-latest:
+          context: Dockerhub
           filters:
             branches:
               only: main
