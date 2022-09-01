@@ -1,11 +1,15 @@
 version: 2.1
 
-jobs:
-  build-docker-image:
+executors:
+  docker-publisher:
     environment:
       IMAGE_NAME: bfamchon/my-repository
     docker:
       - image: cimg/base:current
+
+jobs:
+  build-docker-image:
+    executor: docker-publisher
     steps:
       - checkout
       - setup_remote_docker:
@@ -13,14 +17,23 @@ jobs:
       - run:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:latest .
+      - run:
+          name: Archive Docker image
+          command: docker save -o image.tar $IMAGE_NAME
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./image.tar
   publish-latest:
-    environment:
-      IMAGE_NAME: bfamchon/my-repository
-    docker:
-      - image: cimg/base:current
+    executor: docker-publisher
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - setup_remote_docker:
           version: 20.10.14
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/image.tar
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
