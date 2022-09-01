@@ -5,7 +5,7 @@ jobs:
     environment:
       IMAGE_NAME: bfamchon/my-repository/my-image
     docker:
-      - image: cimg/base
+      - image: cimg/base:current
     steps:
       - checkout
       - setup_remote_docker
