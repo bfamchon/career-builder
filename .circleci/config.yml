@@ -62,7 +62,7 @@ jobs:
             command: 'echo -e "---ndocker_token: $DOCKERHUB_PASS ndocker_user: $DOCKERHUB_USERNAME ndocker_registry: bfamchon/my-repository " > ansible/vars/docker_credentials.yml'
         - run:
             name: Install ansible
-            command: python -m pip install pip==22.2.2 && python -m pip install ansible && python -m pip install jmespath
+            command: python -m pip install pip==20.1.1 && python -m pip install ansible && python -m pip install jmespath
         - run:
             name: Deploy to staging
             command: ls -al && cd ansible && ls -al && ansible-playbook -i staging deployment.yml
