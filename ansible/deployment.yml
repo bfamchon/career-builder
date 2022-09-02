@@ -1,0 +1,8 @@
+---
+- hosts: web_server
+  roles:
+    - role: deploy-docker
+  vars:
+    docker_compose_path: /etc/docker/
+  vars_files:
+    - vars/docker_credentials.yml

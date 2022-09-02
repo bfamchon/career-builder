@@ -1,0 +1,21 @@
+---
+- name: Log into docker registry
+  command: docker login {{ docker_registry }} -u {{ docker_user }} -p {{ docker_token }}
+  no_log: true
+
+- name: Pull docker images
+  command: docker-compose pull
+  args:
+    chdir: "{{ docker_compose_path }}"
+
+- name: Log out of any docker registry
+  command: docker logout
+  no_log: true
+
+- name: Deploy services
+  command: docker-compose up -d
+  args:
+    chdir: "{{ docker_compose_path }}"
+
+- name: Remove old image
+  command: docker image prune -a -f

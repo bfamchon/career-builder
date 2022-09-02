@@ -1,0 +1,5 @@
+[staging:children]
+web_server
+
+[web_server]
+51.158.113.219 ansible_user=root ansible_become=yes # ICI VALUER LA BONNE IP
