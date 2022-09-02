@@ -50,7 +50,7 @@ jobs:
         - image: ansible/ansible:ubuntu1604
       working_directory: ~/project
       environment:
-          ANSIBLE_HOST_KEY_CHECKING: false
+          ANSIBLE_HOST_KEY_CHECKING: "false"
       steps:
         - add_ssh_keys:
             fingerprints:
