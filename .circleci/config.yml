@@ -57,7 +57,7 @@ jobs:
               - "4f:73:b2:e2:15:94:7d:0c:52:e2:c8:63:be:3a:46:67"
         - run:
             name: Create vars folder
-            command: "mkdir ansible/vars"
+            command: "mkdir -p ansible/vars"
         - run:
             name: Set docker registry
             command: 'echo -e "---ndocker_token: $DOCKERHUB_PASS ndocker_user: $DOCKERHUB_USERNAME ndocker_registry: bfamchon/my-repository " > ansible/vars/docker_credentials.yml'
