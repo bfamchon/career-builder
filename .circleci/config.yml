@@ -90,6 +90,7 @@ workflows:
           - node/test
           - build-image
       - deploy-staging:
+          context: Dockerhub
           filters:
               branches:
                 only: main
