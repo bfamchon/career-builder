@@ -1,6 +1,6 @@
 ---
 - name: Log into docker registry
-  command: docker login {{ docker_registry }} -u {{ docker_user }} -p {{ docker_token }}
+  command: docker login -u {{ docker_user }} -p {{ docker_token }}
 
 - name: Pull docker images
   command: docker-compose pull
