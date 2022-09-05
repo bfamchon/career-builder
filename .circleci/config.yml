@@ -47,6 +47,7 @@ jobs:
       - checkout
       - sonarcloud/scan
   deploy-staging:
+      working_directory: /tmp/workspace
       docker:
         - image: ansible/ansible:ubuntu1604
       environment:
