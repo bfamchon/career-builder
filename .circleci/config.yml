@@ -24,6 +24,7 @@ jobs:
           root: .
           paths:
             - ./image.tar
+            - ./ansible
   publish-image:
     executor: docker-publisher
     steps:
